@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: self-hosted
     container:
-      image: mzandtheraspberrypi/imu_webwebsockets:build-2023-08-28
+      image: mzandtheraspberrypi/imu_websocket_broadcaster:build-2023-08-26
       options: --cpus 1
     steps:
       # in a container git doesn't trust some stuff and submodules doesn't work

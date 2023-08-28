@@ -26,6 +26,8 @@ target_link_libraries(${PROJECT_NAME}_lib ${PROTOBUF_LIBRARIES} websocketpp)
 
 
 if (BUILD_IMU_BROADCASTER_EXAMPLES)
-     add_executable(${PROJECT_NAME}_example ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_broadcaster.cpp)
-     target_link_libraries(${PROJECT_NAME}_example PUBLIC ${PROJECT_NAME}_lib)
+     add_executable(${PROJECT_NAME}_example_broadcaster ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_broadcaster.cpp)
+     target_link_libraries(${PROJECT_NAME}_example_broadcaster PUBLIC ${PROJECT_NAME}_lib)
+     add_executable(${PROJECT_NAME}_example_listener ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_listener.cpp)
+     target_link_libraries(${PROJECT_NAME}_example_listener PUBLIC ${PROJECT_NAME}_lib)
 endif()

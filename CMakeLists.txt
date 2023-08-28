@@ -7,12 +7,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
 
+set(CMAKE_MESSAGE_CONTEXT_SHOW true)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/websocketpp)
+add_library(websocketpp INTERFACE)
+target_include_directories(websocketpp INTERFACE ${websocketpp_SOURCE_DIR})
+
 find_package (Protobuf REQUIRED)
 
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/proto/*.proto")
 PROTOBUF_GENERATE_CPP(ProtoSources ProtoHeaders ${ProtoFiles})
 
-add_library(${CMAKE_PROJECT_NAME}_lib STATIC ${ProtoSources} ${ProtoHeaders})
-target_include_directories(${CMAKE_PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/websocketpp/webscoketpp ${CMAKE_CURRENT_SOURCE_DIR}/include)
+message(STATUS "protheaders: ${ProtoHeaders}")
 
-target_link_libraries(${CMAKE_PROJECT_NAME}_lib ${PROTOBUF_LIBRARIES})
+add_library(${PROJECT_NAME}_lib STATIC ${ProtoSources})
+target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(${PROJECT_NAME}_lib ${PROTOBUF_LIBRARIES} websocketpp)
+
+
+add_executable(${PROJECT_NAME}_example ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_broadcaster.cpp)
+target_link_libraries(${PROJECT_NAME}_example PUBLIC ${PROJECT_NAME}_lib)

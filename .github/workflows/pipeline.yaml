@@ -13,7 +13,7 @@ jobs:
       # https://github.com/actions/checkout/issues/1169
       - name: git_correct_dir
         run: |
-          git config --system --add safe.directory /__w/imu_webwebsockets/imu_webwebsockets
+          git config --system --add safe.directory /__w/imu_websockets/imu_websockets
       - name: checkout_repo
         uses: actions/checkout@v2.3.4
         with:
@@ -24,7 +24,7 @@ jobs:
           ls -a
       - name: build
         run: |
-          cd /__w/imu_webwebsockets/imu_webwebsockets/
+          cd /__w/imu_websockets/imu_websockets/
           mkdir build
           cd build
           cmake ..

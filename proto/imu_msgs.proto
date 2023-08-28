@@ -1,0 +1,28 @@
+syntax = "proto2";
+
+package imu_msgs;
+
+message Quaternion {
+    optional double w = 1;
+    optional Triad xyz = 2;
+}
+
+message Triad {
+    optional double x = 1;
+    optional double y = 2;
+    optional double z = 3;
+}
+
+message ImuMsg {
+  optional uint64 timestamp = 1;
+  optional Quaternion ground_truth = 2;
+  optional Triad euler_angles = 3;
+  optional Triad linear_acceleration = 4;
+  optional Triad angular_acceleration = 5;
+  optional Triad magnetometer_vector = 6;
+  optional uint32 board_temp = 7;
+  optional uint32 system_calibration = 8;
+  optional uint32 gyro_calibration = 9;
+  optional uint32 accel_calibration = 10;
+  optional uint32 mag_calibration = 11;
+}

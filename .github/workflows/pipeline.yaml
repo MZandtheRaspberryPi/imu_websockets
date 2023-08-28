@@ -1,0 +1,31 @@
+name: IMU Broadcaster
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    container:
+      image: mzandtheraspberrypi/imu_webwebsockets:build-2023-08-28
+      options: --cpus 1
+    steps:
+      # in a container git doesn't trust some stuff and submodules doesn't work
+      # https://github.com/actions/checkout/issues/1169
+      - name: git_correct_dir
+        run: |
+          git config --system --add safe.directory /__w/imu_webwebsockets/imu_webwebsockets
+      - name: checkout_repo
+        uses: actions/checkout@v2.3.4
+        with:
+          submodules: 'true'
+      - name: examine_files
+        run: |
+          pwd
+          ls -a
+      - name: build
+        run: |
+          cd /__w/imu_webwebsockets/imu_webwebsockets/
+          mkdir build
+          cd build
+          cmake ..
+          make -j 1

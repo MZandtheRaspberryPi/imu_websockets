@@ -11,6 +11,6 @@ WORKDIR /tmp/repo
 RUN mkdir build
 
 WORKDIR /tmp/repo/build
-RUN cmake ..
+RUN cmake .. 
 RUN make
 RUN ls -ltrh

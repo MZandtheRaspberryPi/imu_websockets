@@ -5,9 +5,9 @@ project(imu_websockets VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+option (BUILD_IMU_BROADCASTER_EXAMPLES "Build examples of lib" FALSE)
 
-set(CMAKE_MESSAGE_CONTEXT_SHOW true)
+set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/websocketpp)
 add_library(websocketpp INTERFACE)
@@ -25,5 +25,7 @@ target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
 target_link_libraries(${PROJECT_NAME}_lib ${PROTOBUF_LIBRARIES} websocketpp)
 
 
-add_executable(${PROJECT_NAME}_example ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_broadcaster.cpp)
-target_link_libraries(${PROJECT_NAME}_example PUBLIC ${PROJECT_NAME}_lib)
+if (BUILD_IMU_BROADCASTER_EXAMPLES)
+     add_executable(${PROJECT_NAME}_example ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_broadcaster.cpp)
+     target_link_libraries(${PROJECT_NAME}_example PUBLIC ${PROJECT_NAME}_lib)
+endif()

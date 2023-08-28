@@ -27,5 +27,5 @@ jobs:
           cd /__w/imu_websockets/imu_websockets/
           mkdir build
           cd build
-          cmake ..
+          cmake BUILD_IMU_BROADCASTER_EXAMPLES=TRUE .. 
           make -j 1

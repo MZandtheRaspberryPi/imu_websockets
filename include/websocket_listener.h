@@ -148,7 +148,7 @@ class ListenerClient {
   void on_message(websocketpp::connection_hdl hdl, client::message_ptr msg) {
     imu_msgs::ImuMsg imu_msg;
     const std::string& msg_payload = msg->get_payload();
-    imu_msg.ParseFromString(msg_payload.c_str());
+    imu_msg.ParseFromString(msg_payload);
 
     while (!msg_queue_mutex_.try_lock()) {
       delay(10);

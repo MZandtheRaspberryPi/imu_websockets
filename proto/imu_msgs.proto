@@ -13,6 +13,15 @@ message Triad {
     optional double z = 3;
 }
 
+message MatrixRow {
+  repeated double val = 1;
+}
+
+message CovarianceMatrix {
+  repeated MatrixRow rows;
+
+}
+
 message ImuMsg {
   optional uint64 timestamp = 1;
   optional Quaternion ground_truth = 2;
@@ -27,4 +36,5 @@ message ImuMsg {
   optional uint32 mag_calibration = 11;
   optional uint64 filter_timestamp = 12;
   optional Triad euler_angles_filter = 13;
+  optional CovarianceMatrix cov_matrix_filter = 14;
 }

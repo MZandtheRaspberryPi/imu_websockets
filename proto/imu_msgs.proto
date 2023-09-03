@@ -25,10 +25,6 @@ message ImuMsg {
   optional uint32 gyro_calibration = 9;
   optional uint32 accel_calibration = 10;
   optional uint32 mag_calibration = 11;
-}
-
-message FilterMsg {
-  optional uint64 timestamp = 1;
-  optional ImuMsg imu_msg = 2;
-  optional Triad euler_angles_filter = 3;
+  optional uint64 filter_timestamp = 12;
+  optional Triad euler_angles_filter = 13;
 }

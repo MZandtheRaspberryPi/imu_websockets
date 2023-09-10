@@ -1,7 +1,7 @@
 FROM ubuntu:22.04 as build
 
 RUN apt-get update
-RUN apt-get install nano git libboost-all-dev cmake build-essential g++ -y
+RUN apt-get install nano git libboost-all-dev cmake build-essential g++ i2c-tools libi2c-dev wget -y
 
 COPY ./install_abseil.sh /tmp/install_abseil.sh
 RUN chmod +x /tmp/install_abseil.sh

@@ -14,9 +14,9 @@ RUN /tmp/install_proto_compiler.sh
 COPY . /tmp/repo
 WORKDIR /tmp/repo
 # # RUN protoc -I=/tmp/repo/imu_broadcaster_expected_structure/ --cpp_out=/tmp/repo/imu_broadcaster_expected_structure/proto_msg /tmp/repo/imu_broadcaster_expected_structure/imu_msgs.proto
-# RUN mkdir build
+RUN mkdir build
 
-# WORKDIR /tmp/repo/build
-# RUN cmake -D BUILD_IMU_BROADCASTER_EXAMPLES=TRUE .. 
-# RUN make
-# RUN ls -ltrh
+WORKDIR /tmp/repo/build
+RUN cmake -D BUILD_IMU_BROADCASTER_EXAMPLES=TRUE -DProtobuf_LIBRARIES=/usr/local/lib/libprotobuf.so -Dprotobuf_ABSL_PROVIDER='package' -Dabsl_DIR=/abseil/CMakeProject/install/lib/cmake/absl ..
+RUN make
+RUN ls -ltrh

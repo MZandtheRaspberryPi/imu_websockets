@@ -15,17 +15,24 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/websocketpp)
 add_library(websocketpp INTERFACE)
 target_include_directories(websocketpp INTERFACE ${websocketpp_SOURCE_DIR})
 
-find_package(Protobuf REQUIRED)
+find_package(Protobuf REQUIRED CONFIG)
 find_package(absl REQUIRED)
 
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/proto/*.proto")
-PROTOBUF_GENERATE_CPP(ProtoSources ProtoHeaders ${ProtoFiles})
 
+# PROTOBUF_GENERATE_CPP(ProtoSources ProtoHeaders ${ProtoFiles})
 message(STATUS "protheaders: ${ProtoHeaders}")
 message(STATUS "absl include dirs ${absl_INCLUDE_DIRS}")
-add_library(${PROJECT_NAME}_lib STATIC ${ProtoSources})
-target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR} ${Protobuf_INCLUDE_DIRS} ${absl_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME}_lib ${PROTOBUF_LIBRARIES} websocketpp absl::strings)
+add_library(${PROJECT_NAME}_lib SHARED ${ProtoSources})
+
+set(PROTO_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+protobuf_generate(
+     LANGUAGE cpp
+     TARGET ${PROJECT_NAME}_lib
+     PROTOS ${ProtoFiles}
+     PROTOC_OUT_DIR "${PROTO_BINARY_DIR}")
+target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR} ${Protobuf_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/proto ${absl_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME}_lib ${PROTOBUF_LIBRARIES} absl::base absl::synchronization absl::strings protobuf::libprotobuf websocketpp)
 
 if(BUILD_IMU_BROADCASTER_EXAMPLES)
      add_executable(${PROJECT_NAME}_example_broadcaster ${CMAKE_CURRENT_SOURCE_DIR}/examples/example_broadcaster.cpp)

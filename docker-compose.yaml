@@ -1,10 +1,10 @@
 services:
   listener:
-    image: imu_web
+    image: web
     entrypoint: /tmp/repo/build/imu_websockets_example_listener
     stop_signal: SIGINT
 
   broadcaster:
-    image: imu_web
+    image: web
     entrypoint: /tmp/repo/build/imu_websockets_example_broadcaster
     stop_signal: SIGINT

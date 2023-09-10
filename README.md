@@ -11,3 +11,6 @@ docker run -it --network=compass-net --name=listener --entrypoint=/tmp/repo/buil
 docker run -it --network=compass-net --name=broadcaster --entrypoint=/tmp/repo/build/imu_websockets_example_broadcaster
 
 ```
+
+
+Note we now use a use shared library for imu_websockets, but to do this we have to recompile protobuffer and that is a big thing.

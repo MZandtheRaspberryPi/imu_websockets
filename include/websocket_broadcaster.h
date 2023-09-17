@@ -56,6 +56,14 @@ class BroadcastServer {
     thread_->join();
   }
 
+  void send_imu_msg(const imu_msgs::ImuMsg& msg) {
+    size_t msg_size = msg.ByteSizeLong();
+    uint8_t* msg_arr = new uint8_t[msg_size];
+    msg.SerializeToArray(msg_arr, msg_size);
+    broadcast_server.send_message(msg_arr, msg_size);
+    delete[] msg_arr;
+  }
+
   void send_message(const uint8_t* byte_arr_ptr, const size_t& num_bytes) {
     for (auto it : m_connections) {
       m_server.send(it, byte_arr_ptr, num_bytes,

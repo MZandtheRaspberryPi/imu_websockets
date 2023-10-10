@@ -63,14 +63,17 @@ struct PrintSettings {
 };
 
 void print_accel(const imu_msgs::ImuMsg& msg) {
+  std::cout << "linear acceleration" << std::endl;
   std::cout << msg.linear_acceleration().DebugString() << std::endl;
 }
 
 void print_gyro(const imu_msgs::ImuMsg& msg) {
+  std::cout << "angular acceleration" << std::endl;
   std::cout << msg.angular_acceleration().DebugString() << std::endl;
 }
 
 void print_mag(const imu_msgs::ImuMsg& msg) {
+  std::cout << "magnetometer" << std::endl;
   std::cout << msg.magnetometer_vector().DebugString() << std::endl;
 }
 
@@ -81,10 +84,12 @@ void print_all_sensors(const imu_msgs::ImuMsg& msg) {
 }
 
 void print_euler_bosch(const imu_msgs::ImuMsg& msg) {
+  std::cout << "euler angles bosch" << std::endl;
   std::cout << msg.euler_angles().DebugString() << std::endl;
 }
 
 void print_euler_calc(const imu_msgs::ImuMsg& msg) {
+  std::cout << "euler angles calculated" << std::endl;
   std::cout << msg.euler_angles_filter().DebugString() << std::endl;
 }
 

@@ -23,12 +23,13 @@ const size_t MAX_QUEUE_SIZE = 50;
 
 class ListenerClient {
  public:
-  ListenerClient() {
+  ListenerClient(PrintSettings print_settings = PrintSettings()) {
     my_client_.init_asio();
     my_client_.set_message_handler(bind(&ListenerClient::on_message, this,
                                         std::placeholders::_1,
                                         std::placeholders::_2));
     running_ = false;
+    print_settings_ = print_settings;
   }
   ~ListenerClient() {
     if (running_) {
@@ -69,12 +70,11 @@ class ListenerClient {
         async_connect error: system:111 (Connection refused)
     imu_websockets-listener-1     | [2023-08-28 21:43:23] [info] Error getting
         remote endpoint: system:107 (Transport endpoint is not connected)
-    imu_websockets-listener-1     | [2023-08-28 21:43:23] [error] handle_connect
-        error: Underlying Transport Error imu_websockets-listener-1     |
-    connect did'nt return err, status is 0
-    [2023-08-28 21:43:23] [fail] WebSocket
-        Connection Unknown - "" / 0 websocketpp.transport:2 Underlying Transport
-        Error
+    imu_websockets-listener-1     | [2023-08-28 21:43:23] [error]
+    handle_connect error: Underlying Transport Error imu_websockets-listener-1
+    | connect did'nt return err, status is 0 [2023-08-28 21:43:23] [fail]
+    WebSocket Connection Unknown - "" / 0 websocketpp.transport:2 Underlying
+    Transport Error
     */
     delay(250);
     std::cout << "con end status " << con->get_state() << std::endl;
@@ -150,6 +150,11 @@ class ListenerClient {
     const std::string& msg_payload = msg->get_payload();
     imu_msg.ParseFromString(msg_payload);
 
+    if (print_settings_.print_msgs) {
+      print_imu_msg(imu_msg, print_settings_.print_mode,
+                    print_settings_.messages_per_second);
+    }
+
     while (!msg_queue_mutex_.try_lock()) {
       delay(10);
     }
@@ -168,4 +173,5 @@ class ListenerClient {
   websocketpp::lib::shared_ptr<websocketpp::lib::thread> thread_;
   con_list connection_list_;
   bool running_;
+  PrintSettings print_settings_;
 };
